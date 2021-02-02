@@ -32,7 +32,6 @@ local noises = {
         {modifier = 0.05, weight = 0.01}
     },
     ['decoratives'] = {{modifier = 0.03, weight = 1}, {modifier = 0.05, weight = 0.25}, {modifier = 0.1, weight = 0.05}},
-    ['dungeons'] = {{modifier = 0.0025, weight = 1}, {modifier = 0.005, weight = 0.25}},
     ['dungeon_sewer'] = {
         {modifier = 0.0005, weight = 1},
         {modifier = 0.005, weight = 0.015},
@@ -115,6 +114,17 @@ local noises = {
 		{modifier = 0.002, weight = 1},
 		{modifier = 0.004, weight = 1},
 		{modifier = 0.02, weight = 0.05},
+    },
+    ['dungeons'] = {
+        {modifier = 0.0025 * 1.5, weight = 1},
+        {modifier = 0.005 * 1.5, weight = 0.25}
+    },
+    ["dungeons_mask"] = {
+        {modifier = 0.0025 * 1.5, weight = 1},
+    },
+    ["dungeons_large"] = {
+        {modifier = 0.0005 * 1.5, weight = 1},
+        {modifier = 0.0075 * 1.5, weight = 0.125},
     },
 }
 

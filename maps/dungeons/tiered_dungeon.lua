@@ -14,7 +14,7 @@ local BiterRaffle = require "functions.biter_raffle"
 local Functions = require "maps.dungeons.functions"
 local Get_noise = require "utils.get_noise"
 local Alert = require 'utils.alert'
-require 'maps.dungeons.boss_arena'
+--require 'maps.dungeons.boss_arena'
 
 local Biomes = {}
 Biomes.dirtlands = require "maps.dungeons.biome_dirtlands"
@@ -47,31 +47,56 @@ local disabled_for_deconstruction = {
 		["mineable-wreckages"] = true
 	}
 
-local function get_biome(position, surface_index)
-	--if not a then return "concrete" end
-	if position.x ^ 2 + position.y ^ 2 < 6400 then return "dirtlands" end
+local abs = math.abs
+local sqrt = math.sqrt
+local exp = math.exp
+local function tanh(x) local ex = exp(2 * x); return (ex - 1) / (ex + 1) end
+local function sign(x) if x == 0 then return 0 elseif x >= 0 then return 1 else return -1 end end
 
+local function get_biome(pos, surface_index)
+	if pos.x ^ 2 + pos.y ^ 2 < 6400 then return "dirtlands" end
+	local level = global.dungeons.original_surface_index - surface_index
 	local seed = game.surfaces[surface_index].map_gen_settings.seed
-	local seed_addition = 100000
 
-	local a = 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.66 then return "glitch" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.60 then return "doom" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.62 then return "acid_zone" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.60 then return "concrete" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.71 then return "rainbow" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.53 then return "deepblue" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.22 then return "grasslands" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.22 then return "desert" end
-	a = a + 1
-	if Get_noise("dungeons", position, seed + seed_addition * a) > 0.22 then return "red_desert" end
+	local tweak_badlands = level % 13 == 8 -- boolean
+	local tweak_moisture = -level / 200 + (level % 4 == 2 and -0.2 or 0.0) + (level % 9 == 4 and 0.25 or 0.0)
+	local tweak_doom = level > 0 and level % 6 == 0 and -0.08 or 0.0
+	local tweak_concrete = level % 6 == 3 and -0.15 or 0.0
+	local tweak_rainbow = -level / 333 + (level > 0 and level % 7 == 0 and -0.2 or 0.0)
+	local tweak_grass = level / 56
+
+	local danger    = Get_noise("dungeons", pos, seed + 200000)
+	local dangermask= Get_noise("dungeons_mask", pos, seed + 300000)
+	local interest  = Get_noise("dungeons", pos, seed + 400000)
+	local special   = Get_noise("dungeons", pos, seed + 500000)
+	local moisture  = Get_noise("dungeons", pos, seed + 700000)
+	local moremoist = Get_noise("dungeons_large", pos, seed + 900000)
+	local raw_moisture = moisture
+
+	-- adjust danger to be further away from spawn:
+	local distish = (pos.x / 256) ^ 2 + (pos.y / 256) ^ 2
+	local alleviate_danger = 1 - 1 / (1 + distish * (level + 1))
+	local alleviate_moisture = 1 - 1 / (1 + distish)
+	danger = tanh(danger + sqrt(sqrt(distish + level) / 4 + 1) - 1)
+	danger = danger * sqrt(abs(dangermask)) -- make it less dense, more spotty
+	danger = danger * alleviate_danger
+	moisture = tanh(moisture + moremoist ^ 2 * alleviate_moisture + tweak_moisture)
+	if tweak_badlands then
+		moisture = sign(moisture) * moisture ^ 2
+	end
+
+	if special > 0.71 + tweak_rainbow then return "rainbow" end
+	if danger < 0.25 and interest > 0.6 then return "glitch" end
+	if danger > 0.58 + tweak_doom and danger < 0.98 then return "doom" end
+	if danger + abs(interest) > 0.9 and abs(moisture) > 0.1 then return "acid_zone" end
+	if abs(interest) > 0.55 + tweak_concrete and abs(special) < 0.3 then return "concrete" end
+	if moisture < -0.59 and interest > 0.43 then return "deepblue" end -- oasis
+	if moisture < -0.5 then return "red_desert" end
+	if moisture < -0.15 and interest < -0.3 then return "red_desert" end
+	if moisture < -0.2 then return "desert" end
+	if raw_moisture > 0.65 then return "deepblue" end
+	if moisture > 0.15 and interest > 0.35 then return "deepblue" end
+	if moisture > 0.22 + tweak_grass then return "grasslands" end
 
 	return "dirtlands"
 end
@@ -720,23 +745,24 @@ local function on_tick()
 			end
 		end
 	end
-	--[[
-	if game.tick % 4 ~= 0 then return end
 
-	local surface = game.surfaces["dungeons"]
+	if false then
+		if game.tick % 10 ~= 0 then return end
 
-	local entities = surface.find_entities_filtered({name = "rock-big"})
-	if not entities[1] then return end
+		local surface = game.surfaces["dungeons_floor0"]
 
-	local entity = entities[math_random(1, #entities)]
+		local entities = surface.find_entities_filtered({name = "rock-big"})
+		if not entities[1] then return end
 
-	surface.request_to_generate_chunks(entity.position, 3)
-	surface.force_generate_chunk_requests()
+		local entity = entities[math_random(1, #entities)]
 
-	game.forces.player.chart(surface, {{entity.position.x - 32, entity.position.y - 32}, {entity.position.x + 32, entity.position.y + 32}})
+		surface.request_to_generate_chunks(entity.position, 3)
+		surface.force_generate_chunk_requests()
 
-	entity.die()
-	]]
+		game.forces.player.chart(surface, {{entity.position.x - 32, entity.position.y - 32}, {entity.position.x + 32, entity.position.y + 32}})
+
+		entity.die()
+	end
 end
 
 local Event = require 'utils.event'
