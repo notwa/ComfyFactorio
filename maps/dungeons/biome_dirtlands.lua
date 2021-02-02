@@ -62,7 +62,7 @@ local function dirtlands(surface, room)
 			surface.create_entity({name = Functions.roll_worm_name(surface.index), position = tile.position, force = global.enemy_forces[surface.index]})
 		end
 		if math_random(1, 512) == 1 then
-			surface.create_entity({name = "mineable-wreckage", position = tile.position})
+			surface.create_entity({name = "mineable-wreckages", position = tile.position})
 		end
 		if math_random(1, 256) == 1 then
 			surface.create_entity({name = "rock-huge", position = tile.position})

@@ -70,7 +70,7 @@ local function desert(surface, room)
 		end
 		local noise = Get_noise("decoratives", tile.position, seed)
 		if math_random(1, 3) > 1 and math_abs(noise) > 0.52 then
-			surface.create_entity({name = "mineable-wreckage", position = tile.position})
+			surface.create_entity({name = "mineable-wreckages", position = tile.position})
 		end
 		if math_random(1, 128) == 1 then
 			surface.create_entity({name = "rock-huge", position = tile.position})

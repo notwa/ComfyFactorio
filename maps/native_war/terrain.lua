@@ -520,8 +520,8 @@ local function generate_scrap(event)
 			for c = 1, math_random(2,12), 1 do
 				local vector = scrap_vectors[math_random(1, #scrap_vectors)]
 				local position = {e.position.x + vector[1], e.position.y + vector[2]}
-				if e.surface.can_place_entity({name = "mineable-wreckage", position = position, force = "neutral"}) then
-					e.surface.create_entity({name = "mineable-wreckage", position = position, force = "neutral"})
+				if e.surface.can_place_entity({name = "mineable-wreckages", position = position, force = "neutral"}) then
+					e.surface.create_entity({name = "mineable-wreckages", position = position, force = "neutral"})
 				end
 			end
 		end

@@ -52,7 +52,7 @@ local function init_surface()
 end
 
 
-local wastes = {"rock-big", "rock-big", "rock-big", "rock-big","rock-big","rock-big","rock-big","mineable-wreckage", "mineable-wreckage", "mineable-wreckage", "rock-huge"}
+local wastes = {"rock-big", "rock-big", "rock-big", "rock-big","rock-big","rock-big","rock-big","mineable-wreckages", "mineable-wreckages", "mineable-wreckages", "rock-huge"}
 
 local function get_noise(name, pos)
 	local seed = game.surfaces[1].map_gen_settings.seed

@@ -6,7 +6,7 @@ local math_sqrt = math.sqrt
 local insert = table.insert
 
 local scrap_yeild = {
-	["mineable-wreckage"] = 1
+	["mineable-wreckages"] = 1
 }
 
 local weights = {

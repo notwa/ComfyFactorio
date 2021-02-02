@@ -53,7 +53,7 @@ end
 local special_scraps = {"crash-site-assembling-machine-1-broken", "crash-site-assembling-machine-2-broken", "crash-site-lab-broken", "medium-ship-wreck"}
 function get_scrap()
 	if math.random(1, 128) == 1 then return special_scraps[math.random(1, 4)] end
-	return "mineable-wreckage"
+	return "mineable-wreckages"
 end
 
 function spawn_enemy_gun_turret(surface, position)

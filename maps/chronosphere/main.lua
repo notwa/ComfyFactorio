@@ -584,7 +584,7 @@ local function on_player_mined_entity(event)
 		elseif
 			objective.planet[1].type.id == 11 then event.buffer.clear() -- rocky planet
 		end
-	elseif entity.name == "mineable-wreckage" then
+	elseif entity.name == "mineable-wreckages" then
 		Event_functions.scrap_loot(event)
 		event.buffer.clear()
 	end

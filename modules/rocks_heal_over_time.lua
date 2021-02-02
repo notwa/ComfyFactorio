@@ -4,7 +4,7 @@ local entity_whitelist = {
 	["rock-big"] = true,
 	["sand-rock-big"] = true,
 	["rock-huge"] = true,
-	["mineable-wreckage"] = true,
+	["mineable-wreckages"] = true,
 }
 
 local function process_entity(v, key)

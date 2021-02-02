@@ -4,7 +4,7 @@ local valid_entities = {
 	["rock-big"] = true,
 	["rock-huge"] = true,
 	["sand-rock-big"] = true,
-	["mineable-wreckage"] = true	
+	["mineable-wreckages"] = true	
 }
 
 local size_raffle = {

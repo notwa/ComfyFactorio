@@ -28,7 +28,7 @@ local disabled_for_deconstruction = {
 		["rock-huge"] = true,
 		["rock-big"] = true,
 		["sand-rock-big"] = true,
-		["mineable-wreckage"] = true
+		["mineable-wreckages"] = true
 	}
 
 local function get_noise(name, pos, seed)

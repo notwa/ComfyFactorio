@@ -118,7 +118,7 @@ local size_of_scrap_raffle = #scrap_raffle
 local function on_player_mined_entity(event)
 	local entity = event.entity
 	if not entity.valid then return end
-	if entity.name ~= "mineable-wreckage" then return end
+	if entity.name ~= "mineable-wreckages" then return end
 
 	event.buffer.clear()
 

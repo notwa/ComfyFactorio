@@ -30,7 +30,7 @@ local disabled_for_deconstruction = {
 		["rock-huge"] = true,
 		["rock-big"] = true,
 		["sand-rock-big"] = true,
-		["mineable-wreckage"] = true
+		["mineable-wreckages"] = true
 	}
 
 local tile_replacements = {
@@ -60,10 +60,10 @@ local entity_replacements = {
 	["tree-08-brown"] = "tree-06-brown",
 	["tree-09-brown"] = "tree-06-brown",
 	["tree-09-red"] = "tree-06-brown",
-	["iron-ore"] = "mineable-wreckage",
-	["copper-ore"] = "mineable-wreckage",
-	["coal"] = "mineable-wreckage",
-	["stone"] = "mineable-wreckage"
+	["iron-ore"] = "mineable-wreckages",
+	["copper-ore"] = "mineable-wreckages",
+	["coal"] = "mineable-wreckages",
+	["stone"] = "mineable-wreckages"
 }
 
 local wrecks = {"big-ship-wreck-1", "big-ship-wreck-2", "big-ship-wreck-3"}
@@ -326,7 +326,7 @@ local function process_entity(e)
 	end
 
 	if e.type == "unit-spawner" then
-		for _, wreck in pairs (e.surface.find_entities_filtered({area = {{e.position.x - 4, e.position.y - 4},{e.position.x + 4, e.position.y + 4}}, name = "mineable-wreckage"})) do
+		for _, wreck in pairs (e.surface.find_entities_filtered({area = {{e.position.x - 4, e.position.y - 4},{e.position.x + 4, e.position.y + 4}}, name = "mineable-wreckages"})) do
 			if wreck.valid then wreck.destroy() end
 		end
 		return
@@ -353,7 +353,7 @@ local function on_chunk_generated(event)
 				local noise = get_noise(1, pos)
 				if noise > 0.43 or noise < -0.43 then
 					if math_random(1,3) ~= 1 then
-						surface.create_entity({name = "mineable-wreckage", position = pos})
+						surface.create_entity({name = "mineable-wreckages", position = pos})
 					else
 						if math_random(1,512) == 1 then
 							create_shipwreck(surface, pos)
@@ -384,7 +384,7 @@ local function on_chunk_generated(event)
 	for _, e in pairs (surface.find_entities_filtered({area = {{-50, -50},{50, 50}}})) do
 		local distance_to_center = math.sqrt(e.position.x^2 + e.position.y^2)
 		if e.valid then
-			if distance_to_center < 8 and e.name == "mineable-wreckage" and math_random(1,5) ~= 1 then e.destroy() end
+			if distance_to_center < 8 and e.name == "mineable-wreckages" and math_random(1,5) ~= 1 then e.destroy() end
 		end
 		if e.valid then
 			if distance_to_center < 30 and e.name == "gun-turret" then e.destroy() end
@@ -461,7 +461,7 @@ local function on_player_mined_entity(event)
 	local entity = event.entity
 	if not entity.valid then return end
 
-	if entity.name == "mineable-wreckage" then
+	if entity.name == "mineable-wreckages" then
 		if math_random(1,40) == 1 then unearthing_biters(entity.surface, entity.position, math_random(4,12)) end
 		if math_random(1,80) == 1 then unearthing_worm(entity.surface, entity.position) end
 		if math_random(1,160) == 1 then tick_tack_trap(entity.surface, entity.position) end

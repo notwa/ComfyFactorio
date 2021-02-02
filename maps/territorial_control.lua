@@ -181,7 +181,7 @@ local function get_entity(position)
 	local entity_name = false
 	if noise > 0 then
 		if math_random(1, 3) ~= 1 then
-			entity_name = "mineable-wreckage"
+			entity_name = "mineable-wreckages"
 			if noise > 0.59 then
 				entity_name = rock_raffle[math_random(1, #rock_raffle)]
 				if math_random(1, 128) == 1 then
@@ -481,7 +481,7 @@ local function on_player_mined_entity(event)
 	local entity = event.entity
 	if not entity.valid then return end
 
-	if entity.name == "mineable-wreckage" then
+	if entity.name == "mineable-wreckages" then
 		if math_random(1,40) == 1 then unearthing_biters(entity.surface, entity.position, math_random(4,12)) end
 		if math_random(1,80) == 1 then unearthing_worm(entity.surface, entity.position) end
 		if math_random(1,160) == 1 then tick_tack_trap(entity.surface, entity.position) end
@@ -523,7 +523,7 @@ local function on_entity_died(event)
 		end
 	end
 
-	if event.entity.type == "tree" or event.entity.name == "mineable-wreckage" or event.entity.type == "rock" then
+	if event.entity.type == "tree" or event.entity.name == "mineable-wreckages" or event.entity.type == "rock" then
 		if math_random(1, 32) == 1 then
 			spawn_biter(event.entity.surface, event.entity.position)
 		end
@@ -539,7 +539,7 @@ local disabled_for_deconstruction = {
 		["tree-02"] = true,
 		["tree-04"] = true,
 		["dead-tree-desert"] = true,
-		["mineable-wreckage"] = true,
+		["mineable-wreckages"] = true,
 		["tree-02-red"] = true,
 		["tree-09-red"] = true
 	}

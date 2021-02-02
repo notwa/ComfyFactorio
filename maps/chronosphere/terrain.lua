@@ -161,7 +161,7 @@ local function process_dangerevent_position(p, seed, tiles, entities, treasure, 
 		tiles[#tiles + 1] = {name = "dirt-7", position = p}
 		if scrapyard < -0.38 or scrapyard > 0.38 then
 			if math_random(1,36) == 1 then entities[#entities + 1] = {name = scrap_entities[math_random(1, scrap_entities_index)], position = p, force = "enemy"} end
-			if math_random(1,3) == 1 then entities[#entities + 1] = {name="mineable-wreckage", position=p} end
+			if math_random(1,3) == 1 then entities[#entities + 1] = {name="mineable-wreckages", position=p} end
 			return
 		end
 		return
@@ -209,7 +209,7 @@ local function process_hedgemaze_position(p, seed, tiles, entities, treasure, pl
           end
         elseif things == "crashsite" then
           if math_random(1,2) == 1 then
-            entities[#entities + 1] = {name="mineable-wreckage", position=p}
+            entities[#entities + 1] = {name="mineable-wreckages", position=p}
           end
         elseif things == "treasure" then
           local roll = math_random(1,128)
@@ -248,7 +248,7 @@ local function process_hedgemaze_position(p, seed, tiles, entities, treasure, pl
           end
         elseif things == "crashsite" then
           if math_random(1,2) == 1 then
-            entities[#entities + 1] = {name="mineable-wreckage", position=p}
+            entities[#entities + 1] = {name="mineable-wreckages", position=p}
           end
         elseif things == "treasure" then
           if math_random(1,128) == 1 then
@@ -523,7 +523,7 @@ local function process_scrapyard_position(p, seed, tiles, entities, treasure, pl
 			if math_random(1,48) == 1 then
         entities[#entities + 1] = {name = scrap_entities[math_random(1, scrap_entities_index)], position = p, force = "enemy"}
       else
-		    entities[#entities + 1] = {name="mineable-wreckage", position=p}
+		    entities[#entities + 1] = {name="mineable-wreckages", position=p}
       end
 			return
 		end

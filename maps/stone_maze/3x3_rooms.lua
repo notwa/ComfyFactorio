@@ -92,7 +92,7 @@ room.uranium_wasteland = function(surface, cell_left_top, direction)
 				spawn_enemy_gun_turret(surface, pos)
 			end
 			if math.random(1,10) == 1 and distance_to_center < grid_size * 1.4 then
-				if surface.can_place_entity({name = "mineable-wreckage", position = pos, force = "neutral"}) then
+				if surface.can_place_entity({name = "mineable-wreckages", position = pos, force = "neutral"}) then
 					surface.create_entity({name = get_scrap(), position = pos, force = "neutral"}) 
 				end
 			end

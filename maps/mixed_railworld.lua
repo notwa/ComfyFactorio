@@ -52,7 +52,7 @@ local function on_chunk_generated(event)
 	for _, coal in pairs(event.surface.find_entities_filtered({area = event.area, name = {"coal"}})) do
 		local pos = coal.position
 		if math.random(1,2) ~= 1 then		
-			event.surface.create_entity({name = "mineable-wreckage", position = coal.position, force = "neutral"})
+			event.surface.create_entity({name = "mineable-wreckages", position = coal.position, force = "neutral"})
 		end
 		coal.destroy()
 	end

@@ -66,7 +66,7 @@ local function place_scrap(surface, position)
 	
 	if math_random(1, 4) == 1 then return end
 	
-	surface.create_entity({name = "mineable-wreckage", position = position, force = "neutral"})
+	surface.create_entity({name = "mineable-wreckages", position = position, force = "neutral"})
 end
 
 local function move_away_biteys(surface, area)
@@ -115,7 +115,7 @@ local vectors = {{0,0}, {1,0}, {-1,0}, {0,1}, {0,-1}}
 local function on_player_mined_entity(event)
 	local entity = event.entity
 	if not entity.valid then return end
-	if entity.name ~= "mineable-wreckage" then return end
+	if entity.name ~= "mineable-wreckages" then return end
 	local surface = entity.surface
 	for _, v in pairs(vectors) do
 		local position = {entity.position.x + v[1], entity.position.y + v[2]}

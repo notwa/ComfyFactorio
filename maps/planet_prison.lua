@@ -126,7 +126,7 @@ local industrial_zone_layers = {
       type = "LuaEntity",
       name = "scrap",
       objects = {
-         "mineable-wreckage",
+         "mineable-wreckages",
       },
       elevation = 0.5,
       resolution = 0.1,
@@ -978,7 +978,7 @@ local function on_chunk_generated(e)
 end
 
 local function mined_wreckage(e)
-   if e.entity.name ~= "mineable-wreckage" then
+   if e.entity.name ~= "mineable-wreckages" then
       return
    end
 
